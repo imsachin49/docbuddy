@@ -27,7 +27,7 @@ export default function Home() {
         <Link
           className={buttonVariants({
             size: 'lg',
-            className: 'mt-5',
+            className: 'mt-5 bg-orange-600 hover:bg-orange-500 text-white',
           })}
           href='/dashboard'
           target='_blank'>

@@ -1,23 +1,23 @@
 "use client"
-
 import { useRouter, useSearchParams } from 'next/navigation'
 import { trpc } from '../_trpc/client'
 import { Loader2 } from 'lucide-react'
 
 const Page = () => {
-  const router = useRouter()
-
-  const searchParams = useSearchParams()
-  const origin = searchParams.get('origin')
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const origin = searchParams.get('origin');
+  console.log('origin', origin)
 
   trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
+      console.log('success', success);
       if (success) {
         // user is synced to db
         router.push(origin ? `/${origin}` : '/dashboard')
       }
     },
-    onError: (err) => {
+    onError: (err:any) => {
       if (err.data?.code === 'UNAUTHORIZED') {
         router.push('/sign-in')
       }
