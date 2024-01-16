@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import "react-loading-skeleton/dist/skeleton.css"
+import { Toaster } from "@/components/ui/toaster";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -26,7 +27,8 @@ export default function RootLayout({
             "min-h-screen font-sans antialiased grainy",
             openSans.className
           )}
-        >
+        > 
+          <Toaster />
           <Navbar />
           {children}
         </body>
