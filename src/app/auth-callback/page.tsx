@@ -2,12 +2,20 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { trpc } from '../_trpc/client'
 import { Loader2 } from 'lucide-react'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { redirect } from 'next/navigation'
 
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const origin = searchParams.get('origin');
-  console.log('origin', origin)
+  console.log('origin', origin);
+  const {getUser}=getKindeServerSession();
+  const user=getUser();
+
+  // if(!user || !user.id){
+  //   return redirect('/sign-in');
+  // }
 
   trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
