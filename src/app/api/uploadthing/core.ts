@@ -21,6 +21,8 @@ export const ourFileRouter = {
           uploadStatus:"PROCESSING"
         }
       })
+      // just after uploading the pdf, we want to send it to the processing queue
+      
     }),
 } satisfies FileRouter;
 
