@@ -13,9 +13,9 @@ const Page = () => {
   const {getUser}=getKindeServerSession();
   const user=getUser();
 
-  // if(!user || !user.id){
-  //   return redirect('/sign-in');
-  // }
+  if(!user || !user.id){
+    return redirect('https://summarizer49.kinde.com/auth/cx/_:nav&m:login&psid:d67a112dd6934192ab2f745f79b5655a');
+  }
 
   trpc.authCallback.useQuery(undefined, {
     onSuccess: ({ success }) => {
