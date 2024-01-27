@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { ReactNode } from "react";
+
 
 type StreamResponse = {
   addMessage: () => void;
@@ -17,37 +19,38 @@ export const ChatContext = createContext<StreamResponse>({
 });
 
 interface Props {
-  fielId: string;
-  children: React.ReactNode;
+  fileId: string;
+  children: ReactNode;
 }
 
-export const ChatContextProvider = ({ fielId, children }: Props) => {
+export const ChatContextProvider = ({ fileId, children }: Props) => {
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { toast } = useToast();
-  
+
   const { mutate: sendMessage } = useMutation({
-    mutationFn: async ({message}:{message:string}) => {
+    mutationFn: async ({ message }: { message: string }) => {
       const response = await fetch("/api/message", {
         method: "POST",
         body: JSON.stringify({
-          fielId,
+          fileId,
           message,
         }),
       });
+
       if (!response.ok) {
-        throw new Error("Something went wrong while sending the message");
+        throw new Error("Failed to send message");
       }
+
       return response.body;
     },
   });
 
-  const addMessage=()=>sendMessage({message});
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(event.target.value);
+  const addMessage = () => sendMessage({ message });
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
   };
-
+  
   return (
     <ChatContext.Provider
       value={{
