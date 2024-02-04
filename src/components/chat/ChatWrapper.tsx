@@ -12,6 +12,7 @@ interface ChatWrapperProps {
 }
 
 const ChatWrapper = ({ fileId }: ChatWrapperProps) => {
+  console.log("fileId", fileId);
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
     {
       fileId,
@@ -82,8 +83,8 @@ const ChatWrapper = ({ fileId }: ChatWrapperProps) => {
     );
   }
 
-  return (
-    <ChatContextProvider fielId={fileId}>
+  return(
+    <ChatContextProvider fileId={fileId}>
       <div className="relative min-h-full bg-zinc-200 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
         <div className="flex-1 justify-between flex flex-col mb-28">
           <Messages fileId={fileId} />

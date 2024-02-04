@@ -48,9 +48,9 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
             className={cn(
               'px-4 py-2 rounded-lg inline-block',
               {
-                'bg-blue-600 text-white':
+                'bg-orange-600 text-white':
                   message.isUserMessage,
-                'bg-gray-200 text-gray-900':
+                'bg-gray-50 text-gray-900':
                   !message.isUserMessage,
                 'rounded-br-none':
                   !isNextMessageSamePerson &&
@@ -76,7 +76,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
                   'text-xs select-none mt-2 w-full text-right',
                   {
                     'text-zinc-500': !message.isUserMessage,
-                    'text-blue-300': message.isUserMessage,
+                    'text-zinc-300': message.isUserMessage,
                   }
                 )}>
                 {format(

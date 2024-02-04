@@ -3,7 +3,6 @@ import { useToast } from "../ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
-
 type StreamResponse = {
   addMessage: () => void;
   message: string;
@@ -24,6 +23,7 @@ interface Props {
 }
 
 export const ChatContextProvider = ({ fileId, children }: Props) => {
+  // console.log("fileId", fileId);
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
@@ -45,7 +45,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       return response.body;
     },
   });
-
+  
   const addMessage = () => sendMessage({ message });
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);

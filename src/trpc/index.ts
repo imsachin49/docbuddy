@@ -91,6 +91,8 @@ export const appRouter = router({
         },
       });
 
+      console.log("files",file);
+
       if (!file) throw new TRPCError({ code: "NOT_FOUND" });
 
       const messages = await db.message.findMany({
@@ -110,7 +112,7 @@ export const appRouter = router({
         },
       });
 
-      console.log("Messages",messages);
+      console.log("MessagesXXXX",messages);
 
       let nextCursor: typeof cursor | undefined = undefined;
       if (messages.length > limit) {

@@ -18,6 +18,7 @@ interface SearchResult {
 function customFilter(result: SearchResult, targetFileName: string): boolean {
   return result.metadata?.fileName === targetFileName;
 }
+
 export const POST = async (req: NextRequest) => {
   // endpoint for asking a question to a PDF file
 
@@ -32,6 +33,8 @@ export const POST = async (req: NextRequest) => {
   
   const {fileId,message}=body;
   console.log("body",body);
+
+  console.log("fileId",fileId);
 
   const file = await db.file.findFirst({
     where: {
@@ -67,7 +70,6 @@ export const POST = async (req: NextRequest) => {
     pineconeIndex,
   });
 
-
   const results = await vectorStore.similaritySearch(message, 4);
   console.log("results",results);
   const prevMessage = await db.message.findMany({
@@ -80,10 +82,14 @@ export const POST = async (req: NextRequest) => {
     take: 6,
   });
 
+  console.log("prevMessage====>",prevMessage)
+
   const formattedPrevMessages = prevMessage.map((msg) => ({
     role: msg.isUserMessage ? ("user" as const) : ("assistant" as const),
     content: msg.text,
   }));
+
+  console.log("formattedPrevMessages====>",formattedPrevMessages)
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
@@ -131,6 +137,6 @@ USER INPUT: ${message}`,
       });
     },
   });
-
+  
   return new StreamingTextResponse(stream);
 };
