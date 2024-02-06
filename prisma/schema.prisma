@@ -5,6 +5,11 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  config   = {
+    providerParams = {
+      connect_timeout = 30
+    }
+  }
 }
 
 model User {
