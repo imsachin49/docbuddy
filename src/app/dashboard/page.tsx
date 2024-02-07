@@ -6,7 +6,6 @@ import Dashboard from '@/components/Dashboard'
 const Page = async () => {
   const { getUser } = getKindeServerSession()
   const user:any = getUser();
-  console.log("user1", user);
   
   if (!user || !user.id){
     return redirect('/auth-callback?origin=dashboard')
