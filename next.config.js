@@ -5,6 +5,9 @@ const nextConfig = {
         config.resolve.alias.encoding = false
         return config
     },
+    images:{
+        domains: ['localhost', 'res.cloudinary.com','lh3.googleusercontent.com']
+    }
 }
 
 module.exports = nextConfig

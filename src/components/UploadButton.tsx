@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
@@ -10,7 +9,7 @@ import { useToast } from "./ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 
-const UploadDropzone = () => {
+const UploadDropzone = ({ onClose }:{onClose:any}) => {
   const router = useRouter();
   const [isUploading, setIsUploading] = useState<boolean>(true);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -45,6 +44,21 @@ const UploadDropzone = () => {
     <Dropzone
       multiple={false}
       onDrop={async (acceptedFile) => {
+        console.log("acceptedFile", acceptedFile)
+        // to get number of pages in pdf
+        if (acceptedFile.length === 0) {
+          return;
+        }
+        if (acceptedFile[0].type !== 'application/pdf') {
+          toast({
+            title: "Invalid File Type",
+            description: "Please upload a PDF file.",
+            variant: "destructive",
+          });
+          onClose();
+          setIsUploading(false);
+          return;
+        }
         setIsUploading(true);
         const progressInterval = startSimulatedProgress();
         // handle file upload
@@ -73,6 +87,9 @@ const UploadDropzone = () => {
         clearInterval(progressInterval);
         setUploadProgress(100);
         startPolling({ key });
+
+        // Close the dialog after successful upload
+        onClose();
       }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
@@ -154,7 +171,7 @@ const UploadButton = () => {
       </DialogTrigger>
 
       <DialogContent>
-        <UploadDropzone />
+        <UploadDropzone onClose={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>
   );
